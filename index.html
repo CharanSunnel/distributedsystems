@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Shared Document Editing</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Style+Script&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Style+Script&family=Yantramanav&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&family=Style+Script&family=Yantramanav&display=swap" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&family=Style+Script&family=Yantramanav&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&family=Style+Script&family=Yantramanav&display=swap');
+
+    body {
+      margin-top: 20px;
+      padding: 0;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+
+    h1 {
+      font-family: 'Style Script', cursive;
+      display: inline;
+    }
+
+    #editor {
+      margin: 10px;
+      margin-top: 0px;
+      height: 400px;
+      padding: 20px;
+      font-size: 20px;
+      border: 1px solid black;
+      background: linear-gradient(to bottom, #ffffcc 0%, #ccffff 100%);
+      border-radius: 0px 0px 10px;
+      font-family: 'Inconsolata', monospace;
+      font-family: 'Style Script', cursive;
+      font-family: 'Yantramanav', sans-serif;
+      overflow-y: scroll;
+    }
+
+    #editstyles{
+      height: 55px;
+      border: 1px solid black;
+      padding: 20px;
+      font-size: 20px;
+      margin: 10px;
+      margin-bottom: 0px;
+      border: 1px solid black;
+      background: linear-gradient(to bottom, #ccffff 0%, #ccffff 100%);
+      border-radius: 10px 10px 0px 0px ;
+
+      font-family: 'Inconsolata', monospace;
+      font-family: 'Style Script', cursive;
+      font-family: 'Yantramanav', sans-serif;
+    }
+
+    h2 {
+      font-family: 'Raleway', sans-serif;
+      font-family: 'Style Script', cursive;
+      font-family: 'Yantramanav', sans-serif;
+    }
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+    }
+
+    li {
+      float: left;
+    }
+
+    li a {
+      display: block;
+      color: rgb(0, 0, 0);
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-family: 'Style Script', cursive;
+      font-family: 'Yantramanav', sans-serif;
+      font-size: 19px;
+    }
+
+    li a:hover {
+      border-bottom: 6px solid rgb(133, 201, 243);
+      border-radius: 3px;
+    }
+
+    
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      height: 100px;
+      margin-right: 10px;
+    }
+
+    .yourmail{
+      background-color: rgb(148, 184, 216);
+      border-radius: 10px;
+      font-size: 12px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .editor {
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+}
+
+button:hover {
+  background: #eee;
+}
+
+.separator {
+  height: 20px;
+  width: 1px;
+  background-color: #ccc;
+  margin: 0 5px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.strike {
+  text-decoration: line-through;
+}
+
+.left-align {
+  text-align: left;
+}
+
+.center-align {
+  text-align: center;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.justify-align {
+  text-align: justify;
+}
+
+.ordered-list {
+  list-style-type: decimal;
+}
+
+.unordered-list {
+  list-style-type: disc;
+}
+
+.indent {
+  padding-left: 20px;
+}
+
+.outdent {
+  padding-left: 0;
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo">
+      <h1>Shared Document Editing</h1>
+    </div>
+  </div>
+
+  <!-- <ul>
+    <li><a class="active" href="#home">Home</a></li>
+    <li><a href="#login" onclick="signInWithGoogle()">Login</a></li>
+    <li><a href="#signup">Sign Up</a></li>
+  </ul> -->
+  <div id="editstyles" >
+    <div class="editor">
+      <div class="toolbar">
+        <button class="Normal"><span class="material-icons" onclick="makeNormal()">auto_fix_normal</span></button>
+        <button class="bold"><span class="material-icons" onclick="makeBold()">format_bold</span></button>
+        <button class="italic"><span class="material-icons" onclick="makeItalic()">format_italic</span></button>
+        <button class="underline"><span class="material-icons" onclick="makeUnderline()">format_underline</span></button>
+        <button class="strike"><span class="material-icons">strikethrough_s</span></button>
+        <div class="separator"></div>
+        <button class="left-align"><span class="material-icons" onclick="leftAlignSelection()">format_align_left</span></button>
+        <button class="center-align"><span class="material-icons" onclick="centerAlignSelection()">format_align_center</span></button>
+        <button class="right-align"><span class="material-icons" onclick="rightAlignSelection()">format_align_right</span></button>
+        <button class="justify-align"><span class="material-icons">format_align_justify</span></button>
+        <div class="separator"></div>
+        <button class="ordered-list"><span class="material-icons" onclick="convertSelectionToList()">format_list_numbered</span></button>
+        <button class="unordered-list"><span class="material-icons" onclick="convertSelectionTounList()">format_list_bulleted</span></button>
+        <button class="indent"><span class="material-icons" onclick="indentSelection()">format_indent_increase</span></button>
+        <button class="outdent"><span class="material-icons" onclick="unindentSelection()">format_indent_decrease</span></button>
+      </div>
+
+    </div>
+    
+  </div>
+  <div id="editor" contenteditable="true" aria-placeholder="Enter Your Text Here"> </div>
+  <script src="client.js"></script>
+  <script src="scripts.js"></script>
+
+</body>
+
+</html>
